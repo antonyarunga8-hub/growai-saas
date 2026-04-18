@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GrowAI – AI Social Media Growth & Monetization</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #04060d;
+      --surface: #0c0f1e;
+      --border: rgba(255,255,255,0.07);
+      --accent: #00f5a0;
+      --accent2: #00d9f5;
+      --purple: #8b5cf6;
+      --text: #e8eaf6;
+      --muted: #6b7280;
+      --card: rgba(255,255,255,0.03);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── BG GRID ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,245,160,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,160,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 48px;
+      background: rgba(4,6,13,0.85);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo span { color: var(--text); -webkit-text-fill-color: var(--text); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* X Button */
+    .x-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: #000;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 22px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-family: 'Space Mono', monospace;
+      border: 1px solid #333;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+
+    .x-btn:hover {
+      background: #111;
+      border-color: #555;
+      transform: translateY(-1px);
+    }
+
+    .x-icon {
+      width: 15px;
+      height: 15px;
+      fill: #fff;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,245,160,0.08);
+      border: 1px solid rgba(0,245,160,0.2);
+      color: var(--accent);
+      padding: 6px 16px;
+      border-radius: 40px;
+      font-size: 0.78rem;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -2px;
+      max-width: 860px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+
+    h1 .gradient {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 50%, var(--purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      margin-top: 24px;
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.7;
+      font-weight: 400;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    .hero-ctas {
+      margin-top: 40px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #04060d;
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: -0.3px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(0,245,160,0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px rgba(0,245,160,0.4);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text);
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,0.2);
+      background: var(--card);
+      transform: translateY(-2px);
+    }
+
+    /* ── PLATFORMS ── */
+    .platforms {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 60px;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+
+    .platform-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .platform-chip svg { width: 18px; height: 18px; }
+
+    /* ── SECTION ── */
+    section {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 48px;
+      max-width: 520px;
+    }
+
+    /* ── FEATURES GRID ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: border-color 0.3s, transform 0.3s, background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(0,245,160,0.2);
+      transform: translateY(-4px);
+      background: rgba(0,245,160,0.03);
+    }
+
+    .feature-card:hover::before { opacity: 1; }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.7;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .feature-tag {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 0.72rem;
+      font-family: 'Space Mono', monospace;
+      color: var(--accent2);
+      background: rgba(0,217,245,0.08);
+      border: 1px solid rgba(0,217,245,0.15);
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+
+    /* ── TECH STACK ── */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .stack-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .stack-item:hover {
+      border-color: rgba(139,92,246,0.3);
+      transform: translateY(-2px);
+    }
+
+    .stack-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .timeline-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+
+    .timeline-item:hover { border-color: rgba(0,245,160,0.2); }
+
+    .day-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .timeline-item p {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── PRICING ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 700px;
+    }
+
+    .pricing-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .pricing-card.featured {
+      border-color: rgba(0,245,160,0.3);
+      background: rgba(0,245,160,0.04);
+      position: relative;
+    }
+
+    .pricing-card.featured::after {
+      content: 'PRO';
+      position: absolute;
+      top: -1px; right: 24px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #04060d;
+      font-size: 0.65rem;
+      font-weight: 800;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 2px;
+      padding: 4px 10px;
+      border-radius: 0 0 8px 8px;
+    }
+
+    .pricing-card:hover { transform: translateY(-3px); }
+
+    .plan-name {
+      font-size: 0.8rem;
+      font-family: 'Space Mono', monospace;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .plan-price {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 4px;
+    }
+
+    .plan-price span {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .plan-desc {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .plan-features li {
+      font-size: 0.83rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .plan-features li::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+
+    /* ── DOC BANNER ── */
+    .doc-banner {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto 80px;
+      padding: 0 24px;
+    }
+
+    .doc-banner-inner {
+      background: linear-gradient(135deg, rgba(0,245,160,0.06), rgba(0,217,245,0.06));
+      border: 1px solid rgba(0,245,160,0.2);
+      border-radius: 20px;
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .doc-banner h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .doc-banner p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* ── X SOCIAL SECTION ── */
+    .x-section {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid #222;
+      border-radius: 20px;
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 80px;
+    }
+
+    .x-section-content h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .x-section-content p {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .x-big-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      color: #000;
+      padding: 14px 28px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.95rem;
+      font-family: 'Space Mono', monospace;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(255,255,255,0.1);
+      flex-shrink: 0;
+    }
+
+    .x-big-btn svg { width: 18px; height: 18px; fill: #000; }
+
+    .x-big-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 40px rgba(255,255,255,0.2);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    footer p {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-family: 'Space Mono', monospace;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 80px 20px 60px; }
+      h1 { letter-spacing: -1px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .doc-banner-inner { padding: 28px 24px; }
+      .x-section { padding: 28px 24px; }
+      footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">Grow<span>AI</span></div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#timeline">Timeline</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://x.com" target="_blank" rel="noopener" class="x-btn">
+        <svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/>
+        </svg>
+        Follow on X
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      AI-Powered SaaS · MVP Ready in 7–14 Days
+    </div>
+
+    <h1>
+      Grow Faster.<br>
+      <span class="gradient">Monetize Smarter.</span>
+    </h1>
+
+    <p class="hero-sub">
+      GrowAI is an AI-powered platform helping creators generate viral content,
+      maintain consistent posting, and monetize their audience — all in one place.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="https://docs.google.com/document/d/1Xdhey6SndrYjiWZ2OGqkp9vnA0I14jbkBAUelu2VQEE/edit?usp=sharing"
+         target="_blank" rel="noopener" class="btn-primary">
+        📄 View Full Project Doc
+      </a>
+      <a href="#features" class="btn-secondary">
+        Explore Features →
+      </a>
+    </div>
+
+    <div class="platforms">
+      <!-- Instagram -->
+      <div class="platform-chip">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="20" height="20" rx="5" stroke="#a855f7" stroke-width="1.5"/>
+          <circle cx="12" cy="12" r="4" stroke="#a855f7" stroke-width="1.5"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="#a855f7"/>
+        </svg>
+        Instagram
+      </div>
+      <!-- TikTok -->
+      <div class="platform-chip">
+        <svg viewBox="0 0 24 24" fill="#00d9f5" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34v-7a8.16 8.16 0 0 0 4.77 1.52V6.39a4.85 4.85 0 0 1-1-.3z"/>
+        </svg>
+        TikTok
+      </div>
+      <!-- X -->
+      <div class="platform-chip">
+        <svg viewBox="0 0 24 24" fill="#6b7280" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/>
+        </svg>
+        X / Twitter
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="reveal">
+      <p class="section-label">// Core MVP Features</p>
+      <h2 class="section-title">Everything a creator needs to grow & earn</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon">✍️</div>
+        <h3>AI Caption Generator</h3>
+        <p>Input your niche and tone — get a viral hook, full caption, and hashtags instantly. Powered by OpenAI API and saved to your personal history.</p>
+        <span class="feature-tag">OpenAI API</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">💡</div>
+        <h3>Content Ideas Generator</h3>
+        <p>Stuck on what to post? Get 10 fresh content ideas for your niche in seconds. Regenerate anytime, store your favorites for later.</p>
+        <span class="feature-tag">AI-Powered</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🔗</div>
+        <h3>Link-in-Bio Page</h3>
+        <p>Your own branded monetization page at <code style="color:var(--accent);font-size:0.85em">/u/username</code>. Add links to services, products, and more. Turn followers into customers.</p>
+        <span class="feature-tag">Monetization</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section id="stack">
+    <div class="reveal">
+      <p class="section-label">// Technology Stack</p>
+      <h2 class="section-title">Built with modern, scalable tools</h2>
+    </div>
+    <div class="stack-grid reveal">
+      <div class="stack-item"><span class="stack-dot" style="background:#00d9f5"></span>Next.js</div>
+      <div class="stack-item"><span class="stack-dot" style="background:#38bdf8"></span>Tailwind CSS</div>
+      <div class="stack-item"><span class="stack-dot" style="background:#6366f1"></span>ShadCN UI</div>
+      <div class="stack-item"><span class="stack-dot" style="background:#22c55e"></span>PostgreSQL</div>
+      <div class="stack-item"><span class="stack-dot" style="background:#a855f7"></span>Prisma ORM</div>
+      <div class="stack-item"><span class="stack-dot" style="background:#f59e0b"></span>NextAuth</div>
+      <div class="stack-item"><span class="stack-dot" style="background:#00f5a0"></span>OpenAI API</div>
+      <div class="stack-item"><span class="stack-dot" style="background:#ef4444"></span>Stripe</div>
+      <div class="stack-item"><span class="stack-dot" style="background:#f97316"></span>Supabase</div>
+      <div class="stack-item"><span class="stack-dot" style="background:#e2e8f0"></span>Vercel</div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section id="timeline">
+    <div class="reveal">
+      <p class="section-label">// Development Timeline</p>
+      <h2 class="section-title">7–14 Days from idea to live MVP</h2>
+    </div>
+    <div class="timeline reveal">
+      <div class="timeline-item">
+        <div class="day-label">DAY 1</div>
+        <p>Setup Next.js, Tailwind & Prisma. Configure database.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="day-label">DAY 2</div>
+        <p>Implement authentication. Create dashboard layout.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="day-label">DAY 3</div>
+        <p>Build AI Caption Generator with OpenAI integration.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="day-label">DAY 4</div>
+        <p>Build Content Ideas Generator with storage.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="day-label">DAY 5–6</div>
+        <p>Build Link-in-Bio system with public profiles.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="day-label">DAY 7</div>
+        <p>Testing, polish & deploy MVP to Vercel. 🚀</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="reveal">
+      <p class="section-label">// Monetization</p>
+      <h2 class="section-title">Simple, creator-friendly pricing</h2>
+    </div>
+    <div class="pricing-grid reveal">
+      <div class="pricing-card">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">$0 <span>/ month</span></div>
+        <p class="plan-desc">Perfect to get started and see the value.</p>
+        <ul class="plan-features">
+          <li>5 AI generations / day</li>
+          <li>Basic bio page</li>
+          <li>Content ideas access</li>
+        </ul>
+      </div>
+      <div class="pricing-card featured">
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$10–20 <span>/ month</span></div>
+        <p class="plan-desc">For serious creators ready to grow and earn.</p>
+        <ul class="plan-features">
+          <li>Unlimited AI generation</li>
+          <li>Bio page customization</li>
+          <li>Premium features</li>
+          <li>Priority support</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- GOOGLE DOC BANNER -->
+  <div class="doc-banner">
+    <div class="doc-banner-inner reveal">
+      <div>
+        <h3>📄 Full Project Documentation</h3>
+        <p>Execution plan, DB schema, GTM strategy & full technical breakdown</p>
+      </div>
+      <a href="https://docs.google.com/document/d/1Xdhey6SndrYjiWZ2OGqkp9vnA0I14jbkBAUelu2VQEE/edit?usp=sharing"
+         target="_blank" rel="noopener" class="btn-primary">
+        Open in Google Docs →
+      </a>
+    </div>
+  </div>
+
+  <!-- X SOCIAL SECTION -->
+  <div class="doc-banner">
+    <div class="x-section reveal">
+      <div class="x-section-content">
+        <h3>Follow GrowAI on X</h3>
+        <p>Growth tips · AI content hacks · Creator monetization · Behind the build</p>
+      </div>
+      <a href="https://x.com" target="_blank" rel="noopener" class="x-big-btn">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/>
+        </svg>
+        @GrowAI on X
+      </a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 GrowAI · AI Social Media Growth & Monetization SaaS</p>
+    <div class="footer-links">
+      <a href="https://docs.google.com/document/d/1Xdhey6SndrYjiWZ2OGqkp9vnA0I14jbkBAUelu2VQEE/edit?usp=sharing" target="_blank">Project Docs</a>
+      <a href="https://x.com" target="_blank">X / Twitter</a>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
