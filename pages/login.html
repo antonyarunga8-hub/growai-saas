@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In – GrowAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{ --bg:#04060d; --surface:#0c0f1e; --border:rgba(255,255,255,0.07); --accent:#00f5a0; --accent2:#00d9f5; --purple:#8b5cf6; --text:#e8eaf6; --muted:#6b7280; }
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    body{ font-family:'Syne',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; display:grid; grid-template-columns:1fr 1fr; overflow:hidden; }
+    body::before{ content:''; position:fixed; inset:0; background-image:linear-gradient(rgba(0,245,160,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,160,0.03) 1px,transparent 1px); background-size:60px 60px; pointer-events:none; z-index:0; }
+
+    /* LEFT BRAND PANEL */
+    .brand-panel{ background:linear-gradient(135deg,#04060d 0%,#080d1a 50%,#04060d 100%); display:flex; flex-direction:column; justify-content:center; padding:4rem; position:relative; overflow:hidden; z-index:1; }
+    .brand-panel::before{ content:''; position:absolute; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(0,245,160,0.08),transparent 70%); top:-100px; left:-100px; }
+    .brand-panel::after{ content:''; position:absolute; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle,rgba(139,92,246,0.08),transparent 70%); bottom:-80px; right:-80px; }
+    .brand-logo{ font-size:2rem; font-weight:800; background:linear-gradient(90deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:3rem; }
+    .brand-headline{ font-size:clamp(1.8rem,3vw,2.8rem); font-weight:800; line-height:1.2; margin-bottom:1rem; }
+    .brand-headline span{ background:linear-gradient(90deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .brand-sub{ color:var(--muted); font-size:1rem; line-height:1.7; margin-bottom:2.5rem; max-width:380px; }
+    .brand-stats{ display:flex; gap:2rem; }
+    .stat{ }
+    .stat-num{ font-size:1.8rem; font-weight:800; background:linear-gradient(90deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .stat-label{ font-size:0.8rem; color:var(--muted); }
+    .testimonial{ margin-top:3rem; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:16px; padding:1.5rem; max-width:400px; }
+    .testimonial p{ font-size:0.9rem; color:var(--muted); line-height:1.7; font-style:italic; margin-bottom:1rem; }
+    .testimonial-author{ display:flex; align-items:center; gap:0.75rem; }
+    .avatar{ width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--purple)); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem; color:#000; }
+    .author-info .name{ font-size:0.85rem; font-weight:700; }
+    .author-info .handle{ font-size:0.75rem; color:var(--muted); }
+
+    /* RIGHT FORM PANEL */
+    .form-panel{ display:flex; flex-direction:column; justify-content:center; align-items:center; padding:3rem 2rem; z-index:1; overflow-y:auto; }
+    .form-box{ width:100%; max-width:420px; }
+    .form-tabs{ display:flex; background:rgba(255,255,255,0.04); border-radius:12px; padding:4px; margin-bottom:2rem; }
+    .form-tab{ flex:1; padding:0.7rem; border:none; background:none; color:var(--muted); font-family:'Syne',sans-serif; font-weight:600; font-size:0.9rem; cursor:pointer; border-radius:10px; transition:all 0.2s; }
+    .form-tab.active{ background:var(--surface); color:var(--text); }
+    .form-title{ font-size:1.6rem; font-weight:800; margin-bottom:0.4rem; }
+    .form-subtitle{ color:var(--muted); font-size:0.9rem; margin-bottom:2rem; }
+    .form-group{ margin-bottom:1.25rem; }
+    label{ display:block; font-size:0.85rem; font-weight:600; color:var(--muted); margin-bottom:0.4rem; }
+    .input-wrap{ position:relative; }
+    .input-wrap svg{ position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none; }
+    input[type=text],input[type=email],input[type=password]{ width:100%; background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:10px; padding:0.85rem 1rem 0.85rem 2.75rem; color:var(--text); font-family:'Syne',sans-serif; font-size:0.95rem; transition:border-color 0.2s; }
+    input:focus{ outline:none; border-color:var(--accent); }
+    input::placeholder{ color:var(--muted); }
+    .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .forgot{ float:right; font-size:0.8rem; color:var(--accent); text-decoration:none; }
+    .forgot:hover{ text-decoration:underline; }
+    .btn-submit{ width:100%; padding:0.9rem; border:none; border-radius:10px; background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#000; font-family:'Syne',sans-serif; font-weight:800; font-size:1rem; cursor:pointer; transition:opacity 0.2s,transform 0.2s; margin-top:0.5rem; }
+    .btn-submit:hover{ opacity:0.9; transform:scale(1.01); }
+    .divider{ display:flex; align-items:center; gap:1rem; margin:1.5rem 0; color:var(--muted); font-size:0.85rem; }
+    .divider::before,.divider::after{ content:''; flex:1; height:1px; background:var(--border); }
+    .social-btns{ display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; }
+    .social-btn{ display:flex; align-items:center; justify-content:center; gap:0.6rem; padding:0.75rem; border:1px solid var(--border); border-radius:10px; background:rgba(255,255,255,0.03); color:var(--text); font-family:'Syne',sans-serif; font-size:0.85rem; font-weight:600; cursor:pointer; transition:border-color 0.2s,background 0.2s; }
+    .social-btn:hover{ border-color:rgba(255,255,255,0.2); background:rgba(255,255,255,0.06); }
+    .switch-link{ text-align:center; margin-top:1.5rem; font-size:0.85rem; color:var(--muted); }
+    .switch-link a{ color:var(--accent); text-decoration:none; font-weight:700; }
+    .switch-link a:hover{ text-decoration:underline; }
+    .terms{ font-size:0.75rem; color:var(--muted); text-align:center; margin-top:1rem; line-height:1.6; }
+    .terms a{ color:var(--accent); text-decoration:none; }
+    .error-msg{ background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#f87171; padding:0.75rem 1rem; border-radius:10px; font-size:0.85rem; margin-bottom:1rem; display:none; }
+
+    @media(max-width:768px){
+      body{ grid-template-columns:1fr; }
+      .brand-panel{ display:none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Left Brand Panel -->
+  <div class="brand-panel">
+    <div class="brand-logo">GrowAI</div>
+    <div class="brand-headline">Your AI-powered<br><span>growth engine.</span></div>
+    <p class="brand-sub">Join thousands of creators using GrowAI to generate viral content, grow their audience, and monetize — all in one place.</p>
+    <div class="brand-stats">
+      <div class="stat"><div class="stat-num">12K+</div><div class="stat-label">Active Creators</div></div>
+      <div class="stat"><div class="stat-num">4.9★</div><div class="stat-label">Average Rating</div></div>
+      <div class="stat"><div class="stat-num">3M+</div><div class="stat-label">Captions Generated</div></div>
+    </div>
+    <div class="testimonial">
+      <p>"GrowAI took my TikTok from 2K to 80K followers in 3 months. The AI captions are insanely good."</p>
+      <div class="testimonial-author">
+        <div class="avatar">SM</div>
+        <div class="author-info">
+          <div class="name">Sofia M.</div>
+          <div class="handle">@sofiamakes · 80K followers</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Form Panel -->
+  <div class="form-panel">
+    <div class="form-box">
+      <div class="form-tabs">
+        <button class="form-tab active" id="tab-login" onclick="showTab('login')">Sign In</button>
+        <button class="form-tab" id="tab-signup" onclick="showTab('signup')">Create Account</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="form-login">
+        <div class="form-title">Welcome back 👋</div>
+        <div class="form-subtitle">Sign in to your GrowAI account</div>
+        <div class="error-msg" id="login-error">Invalid email or password. Please try again.</div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <div class="input-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input type="email" id="login-email" placeholder="you@example.com" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Password <a href="#" class="forgot">Forgot password?</a></label>
+          <div class="input-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" id="login-password" placeholder="Enter your password" />
+          </div>
+        </div>
+        <button class="btn-submit" onclick="handleLogin()">Sign In →</button>
+        <div class="divider">or continue with</div>
+        <div class="social-btns">
+          <button class="social-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Google
+          </button>
+          <button class="social-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Z"/></svg>
+            X / Twitter
+          </button>
+        </div>
+        <div class="switch-link">Don't have an account? <a onclick="showTab('signup')">Sign up free</a></div>
+      </div>
+
+      <!-- SIGNUP FORM -->
+      <div id="form-signup" style="display:none;">
+        <div class="form-title">Start growing today 🚀</div>
+        <div class="form-subtitle">Create your free GrowAI account</div>
+        <div class="error-msg" id="signup-error">Please fill in all fields correctly.</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <div class="input-wrap">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <input type="text" placeholder="John" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <div class="input-wrap">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <input type="text" placeholder="Doe" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <div class="input-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input type="email" placeholder="you@example.com" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" placeholder="Min. 8 characters" />
+          </div>
+        </div>
+        <button class="btn-submit" onclick="handleSignup()">Create Free Account →</button>
+        <div class="terms">By signing up you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</div>
+        <div class="switch-link">Already have an account? <a onclick="showTab('login')">Sign in</a></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showTab(tab) {
+      document.getElementById('form-login').style.display = tab==='login' ? 'block' : 'none';
+      document.getElementById('form-signup').style.display = tab==='signup' ? 'block' : 'none';
+      document.getElementById('tab-login').classList.toggle('active', tab==='login');
+      document.getElementById('tab-signup').classList.toggle('active', tab==='signup');
+    }
+    function handleLogin() {
+      const email = document.getElementById('login-email').value;
+      const pass  = document.getElementById('login-password').value;
+      if (!email || !pass) { document.getElementById('login-error').style.display='block'; return; }
+      document.getElementById('login-error').style.display='none';
+      alert('Login flow — connect to Supabase auth in production!');
+    }
+    function handleSignup() {
+      document.getElementById('signup-error').style.display='none';
+      alert('Signup flow — connect to Supabase auth in production!');
+    }
+  </script>
+</body>
+</html>
